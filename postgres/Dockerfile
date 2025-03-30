@@ -1,10 +1,9 @@
-# Use an official PostgreSQL image as a base
-FROM postgres:latest
+FROM postgres:13
 
-# Set the environment variables
 ENV POSTGRES_USER=user
-ENV POSTGRES_PASSWORD=password
-ENV POSTGRES_DB=mydb
+ENV POSTGRES_PASSWORD=user
+ENV POSTGRES_DB=wake_db
 
-# Expose the port
 EXPOSE 5432
+
+COPY ./data/wake_db.sql /docker-entrypoint-initdb.d/wake_db.sql

@@ -1,32 +1,28 @@
 version: '3'
 
 services:
-  db:
+
+  postgres:
     build: ./postgres
     container_name: wake_postgres
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mydb
+    image: postgres:latest
     ports:
       - "5432:5432"
     volumes:
-      - ./volumes/db/data:/var/l    ib/postgresql/data
-
-  django:
-    build: ./django
-    container_name: wake_django
-    environment:
-      - DATABASE_URL=postgres://user:password@db:5432/mydb
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
+      - ./data:/var/lib/postgres/data
 
   react:
     build: ./react
     container_name: wake_react
     ports:
       - "3000:3000"
+
+  django:
+    build: ./django
+    container_name: wake_django
     depends_on:
-      - django
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://user:user@wake_db:5432/wake_db
+    ports:
+      - "8000:8000"

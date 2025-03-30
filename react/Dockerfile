@@ -1,5 +1,5 @@
 # Use an official Node.js image as a base
-FROM node:14-slim
+FROM node:latest
 
 # Set the working directory to /app
 WORKDIR /app
@@ -8,10 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm install eslint@latest --save-dev
+RUN npm install -g npm@latest
 
 # Copy the application code
 COPY . .
+
+# Build the React app
+RUN npm run build
 
 # Expose the port
 EXPOSE 3000
